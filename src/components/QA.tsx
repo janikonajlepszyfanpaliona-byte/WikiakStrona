@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useOnScreen } from './useOnScreen';
 
 const faqItems = [
@@ -36,78 +36,121 @@ export default function QA() {
   const [ref, isVisible] = useOnScreen(0.1);
 
   return (
-    <section id="qa" className="py-20 px-4 bg-black border-t border-white/10" ref={ref}>
-      <div className="max-w-4xl mx-auto">
+    <section
+      id="qa"
+      className="py-24 px-4 bg-black border-t relative overflow-hidden"
+      style={{ borderColor: 'rgba(255,255,255,0.06)' }}
+      ref={ref}
+    >
+      {/* Subtle glow background */}
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse, rgba(168, 85, 247, 0.07) 0%, transparent 70%)',
+        }}
+      />
+
+      <div className="max-w-3xl mx-auto relative z-10">
         <motion.div
-          className="mb-16"
+          className="mb-14"
           initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-          <h2 className="text-6xl md:text-7xl font-black mb-4 tracking-tight text-white">Pytania i Odpowiedzi</h2>
-          <p className="text-gray-400 text-lg">
+          <span
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-4"
+            style={{
+              background: 'rgba(168, 85, 247, 0.12)',
+              border: '1px solid rgba(168, 85, 247, 0.28)',
+              color: '#c084fc',
+            }}
+          >
+            FAQ
+          </span>
+          <h2 className="text-5xl md:text-6xl font-black mb-4 tracking-tight text-white">
+            Pytania i Odpowiedzi
+          </h2>
+          <p className="text-gray-500 text-base">
             Popularne pytania dotyczące mojego procesu pracy, narzędzi i czasu realizacji.
           </p>
         </motion.div>
 
         <div className="space-y-3">
-          {faqItems.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30, scale: 0.9, filter: 'blur(12px)' }}
-              animate={isVisible ? { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' } : { opacity: 0, y: 30, scale: 0.9, filter: 'blur(12px)' }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.08,
-                ease: 'easeOut',
-              }}
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full group"
+          {faqItems.map((item, index) => {
+            const isOpen = openIndex === index;
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
+                animate={
+                  isVisible
+                    ? { opacity: 1, y: 0, filter: 'blur(0px)' }
+                    : { opacity: 0, y: 24, filter: 'blur(8px)' }
+                }
+                transition={{ duration: 0.5, delay: index * 0.07, ease: 'easeOut' }}
+                className="rounded-xl overflow-hidden"
+                style={{
+                  background: isOpen ? 'rgba(168,85,247,0.07)' : 'rgba(255,255,255,0.03)',
+                  border: isOpen
+                    ? '1px solid rgba(168,85,247,0.25)'
+                    : '1px solid rgba(255,255,255,0.08)',
+                  transition: 'background 0.3s, border-color 0.3s',
+                }}
               >
-                <div className="bg-black border border-white/20 group-hover:border-white/50 rounded-lg p-6 transition-all duration-500 text-left cursor-pointer">
-                  <div className="flex justify-between items-center gap-4">
-                    <span className="text-lg font-bold text-white group-hover:text-gray-100 transition-colors duration-300">
-                      {item.question}
-                    </span>
-                    <motion.svg
-                      className="w-5 h-5 text-white flex-shrink-0"
+                <button
+                  onClick={() => setOpenIndex(isOpen ? null : index)}
+                  className="w-full text-left p-5 md:p-6 flex justify-between items-center gap-4 group"
+                >
+                  <span
+                    className="text-base md:text-lg font-semibold transition-colors duration-300"
+                    style={{ color: isOpen ? '#e9d5ff' : '#ffffff' }}
+                  >
+                    {item.question}
+                  </span>
+                  <motion.span
+                    className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center"
+                    style={{
+                      background: isOpen
+                        ? 'rgba(168,85,247,0.25)'
+                        : 'rgba(255,255,255,0.06)',
+                    }}
+                    animate={{ rotate: isOpen ? 45 : 0 }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                  >
+                    <svg
+                      className="w-3.5 h-3.5"
                       fill="none"
-                      stroke="currentColor"
+                      stroke={isOpen ? '#c084fc' : '#ffffff'}
                       viewBox="0 0 24 24"
-                      animate={{ rotate: openIndex === index ? 180 : 0 }}
-                      transition={{ duration: 0.4, ease: 'easeOut' }}
                     >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                        strokeWidth={2.5}
+                        d="M12 5v14M5 12h14"
                       />
-                    </motion.svg>
-                  </div>
-                </div>
-              </button>
+                    </svg>
+                  </motion.span>
+                </button>
 
-              {/* Answer - smooth slide and fade */}
-              <motion.div
-                initial={false}
-                animate={{ height: openIndex === index ? 'auto' : 0, opacity: openIndex === index ? 1 : 0 }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
-                className="overflow-hidden"
-              >
-                <motion.div
-                  className="bg-black border border-white/10 border-t-0 rounded-b-lg p-6 text-gray-300 leading-relaxed"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: openIndex === index ? 1 : 0 }}
-                  transition={{ duration: 0.4, delay: 0.1 }}
-                >
-                  {item.answer}
-                </motion.div>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.35, ease: 'easeOut' }}
+                      className="overflow-hidden"
+                    >
+                      <p className="px-5 md:px-6 pb-5 text-gray-400 text-sm md:text-base leading-relaxed">
+                        {item.answer}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

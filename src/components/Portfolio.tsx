@@ -10,7 +10,7 @@ const portfolioItems = [
     id: 1,
     title: '100 Widzów vs 3 Pro Budowniczych - Kto Wybuduje Lepsze Królestwo?',
     category: 'Videos',
-    videoId: '-0EwuWwuxK8', 
+    videoId: '-0EwuWwuxK8',
     creator: 'Napierak',
     creatorAvatar: 'https://yt3.googleusercontent.com/ytc/AIdro_m6Azbdy1x7mjZsh5uQnrKHhF2fTabVe9GvKqIWkb47LNQ=s900-c-k-c0x00ffffff-no-rj',
     label: 'Montaż Filmu',
@@ -37,26 +37,14 @@ const portfolioItems = [
 
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.1,
-    },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.1 } },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 50, scale: 0.85, filter: 'blur(16px)' },
+  hidden: { opacity: 0, y: 40, filter: 'blur(12px)' },
   visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    filter: 'blur(0px)',
-    transition: {
-      duration: 0.9,
-      delay: i * 0.08,
-    },
+    opacity: 1, y: 0, filter: 'blur(0px)',
+    transition: { duration: 0.7, delay: i * 0.1 },
   }),
 };
 
@@ -67,251 +55,152 @@ export default function Portfolio() {
   return (
     <section
       id="portfolio"
-      className="py-24 px-4 bg-black border-t border-white/10 relative overflow-hidden"
+      className="py-24 px-4 bg-black border-t relative overflow-hidden"
+      style={{ borderColor: 'rgba(255,255,255,0.06)' }}
       ref={ref}
     >
       <div className="max-w-7xl mx-auto">
-        {/* Header Section */}
+        {/* Header */}
         <motion.div
-          className="mb-20 flex flex-col md:flex-row justify-between items-start md:items-center gap-8"
+          className="mb-16 flex flex-col md:flex-row justify-between items-start md:items-center gap-8"
           variants={containerVariants}
           initial="hidden"
           animate={isVisible ? 'visible' : 'hidden'}
         >
           <motion.div variants={itemVariants} custom={0}>
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-black mb-4 tracking-tight text-white leading-tight">
+            <span
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-4"
+              style={{ background: 'rgba(168,85,247,0.12)', border: '1px solid rgba(168,85,247,0.28)', color: '#c084fc' }}
+            >
+              Portfolio
+            </span>
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-black mb-3 tracking-tight text-white leading-tight">
               Wybrane<br />Prace
             </h2>
-            <motion.p 
-              className="text-gray-400 text-base md:text-lg max-w-md"
-              animate={{ opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >
-              Najlepsze projekty z mojego portfolio - odkryj kreatywne rozwiązania dla twórców
-            </motion.p>
+            <p className="text-gray-500 text-base max-w-md">
+              Najlepsze projekty z mojego portfolio – kreatywne rozwiązania dla twórców.
+            </p>
           </motion.div>
 
           <motion.div variants={itemVariants} custom={1}>
-            <motion.div
-              whileHover={{ scale: 1.05, y: -4 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            >
+            <motion.div whileHover={{ scale: 1.05, y: -4 }} whileTap={{ scale: 0.95 }}>
               <Link
                 href="/portfolio"
-                className="px-8 py-4 rounded-full border-2 border-white text-white font-bold text-lg hover:bg-white hover:text-black transition-all duration-500 group relative overflow-hidden block whitespace-nowrap"
+                className="px-8 py-4 rounded-full font-bold text-base text-black whitespace-nowrap block"
+                style={{ background: 'linear-gradient(135deg, #c084fc, #a855f7)', boxShadow: '0 0 30px rgba(168,85,247,0.3)' }}
               >
-                <motion.span
-                  className="relative z-10 flex items-center gap-2"
-                  group-hover={{ x: 4 }}
-                >
-                  Pełne Portfolio
-                  <motion.span
-                    animate={{ x: [0, 4, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="text-xl"
-                  >
-                    →
-                  </motion.span>
-                </motion.span>
+                Pełne Portfolio →
               </Link>
             </motion.div>
           </motion.div>
         </motion.div>
 
-        {/* Channel-based Grid Layout */}
+        {/* Grid */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           variants={containerVariants}
           initial="hidden"
           animate={isVisible ? 'visible' : 'hidden'}
         >
-          {portfolioItems.map((item, index) => (
-            <motion.button
-              key={item.id}
-              onClick={() => setSelectedVideoId(item.videoId)}
-              className="group relative overflow-hidden rounded-2xl bg-black border border-white/20 p-0 cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-black transition-all"
-              variants={itemVariants}
-              custom={index}
-              whileHover={{ 
-                y: -12, 
-                borderColor: 'rgba(255,255,255,0.6)'
-              }}
-              whileTap={{ scale: 0.98 }}
-              style={{ willChange: 'transform, box-shadow, border-color' }}
-            >
-              {/* Thumbnail Container */}
+          {portfolioItems.map((item, index) => {
+            const isPlaying = selectedVideoId === item.videoId;
+            return (
               <motion.div
-                className="relative w-full bg-black flex items-center justify-center overflow-hidden"
-                style={{ aspectRatio: '16 / 9' }}
+                key={item.id}
+                className="group relative overflow-hidden rounded-2xl bg-black"
+                style={{
+                  border: isPlaying ? '1px solid rgba(168,85,247,0.5)' : '1px solid rgba(255,255,255,0.08)',
+                  boxShadow: isPlaying ? '0 20px 60px rgba(168,85,247,0.2)' : 'none',
+                }}
+                variants={itemVariants}
+                custom={index}
+                whileHover={!isPlaying ? { y: -10, borderColor: 'rgba(168,85,247,0.4)', boxShadow: '0 20px 60px rgba(168,85,247,0.12)' } : {}}
               >
-                {/* Animated gradient overlay on hover */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 to-blue-500/0 opacity-0 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none"
-                  animate={{ 
-                    opacity: [0, 0, 0],
-                    rotate: [0, 10, 0]
-                  }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                />
-
-                <motion.img
-                  src={`https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg`}
-                  alt={item.title}
-                  className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.7, ease: 'easeInOut' }}
-                  loading="lazy"
-                  decoding="async"
-                  draggable={false}
-                />
-
-                {/* Play Button Overlay */}
-                <motion.div 
-                  className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 transition-colors duration-500"
-                  initial={{ backdropFilter: 'blur(0px)' }}
-                  whileHover={{ backdropFilter: 'blur(4px)' }}
-                >
-                  <motion.div
-                    className="relative"
-                    whileHover={{ scale: 1.2 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <motion.div
-                      className="absolute inset-0 bg-white/20 rounded-full blur-xl"
-                      animate={{ scale: [1, 1.3, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                    <svg
-                      className="w-20 h-20 text-white drop-shadow-lg relative z-10"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                    </svg>
-                  </motion.div>
-                </motion.div>
-
-                {/* Category Badge */}
-                <motion.div
-                  className="absolute top-4 left-4 px-3 py-1 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-xs font-bold rounded-full uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  initial={{ y: -10, opacity: 0 }}
-                  whileHover={{ y: 0, opacity: 1 }}
-                >
-                  {item.category}
-                </motion.div>
-              </motion.div>
-
-              {/* Info Section with Creator */}
-              <motion.div 
-                className="p-6 flex items-center justify-between"
-                initial={{ opacity: 0.8 }}
-                whileHover={{ opacity: 1 }}
-              >
-                <div className="flex-1">
-                  <h3 className="text-white font-bold text-lg mb-2 line-clamp-2">
-                    {item.title}
-                  </h3>
-                  <motion.p 
-                    className="text-gray-500 text-sm"
-                    animate={{ opacity: [0.5, 0.8, 0.5] }}
-                    transition={{ duration: 3, repeat: Infinity }}
-                  >
-                    Kliknij, aby obejrzeć →
-                  </motion.p>
+                {/* Thumbnail / Inline Player */}
+                <div className="relative overflow-hidden" style={{ aspectRatio: '16/9' }}>
+                  {isPlaying ? (
+                    <>
+                      <iframe
+                        className="absolute inset-0 w-full h-full"
+                        src={`https://www.youtube.com/embed/${item.videoId}?autoplay=1&rel=0&modestbranding=1&controls=1`}
+                        title={item.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        style={{ border: 'none' }}
+                      />
+                      <button
+                        onClick={() => setSelectedVideoId(null)}
+                        className="absolute top-2 right-2 z-20 w-7 h-7 rounded-full flex items-center justify-center text-white"
+                        style={{ background: 'rgba(0,0,0,0.75)', border: '1px solid rgba(255,255,255,0.2)' }}
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </>
+                  ) : (
+                    <button className="absolute inset-0 w-full h-full" onClick={() => setSelectedVideoId(item.videoId)}>
+                      <motion.img
+                        src={`https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg`}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                        whileHover={{ scale: 1.06 }}
+                        transition={{ duration: 0.6 }}
+                        loading="lazy"
+                        draggable={false}
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/35 transition-colors duration-300">
+                        <div
+                          className="w-16 h-16 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          style={{ background: 'rgba(168,85,247,0.85)', boxShadow: '0 0 40px rgba(168,85,247,0.5)' }}
+                        >
+                          <svg className="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        className="absolute top-3 left-3 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        style={{ background: 'rgba(168,85,247,0.85)', color: '#fff' }}
+                      >
+                        {item.category}
+                      </div>
+                    </button>
+                  )}
                 </div>
-              </motion.div>
 
-              {/* Creator Info Section */}
-              <motion.div 
-                className="px-6 pb-6 flex items-center justify-between border-t border-white/10 pt-4"
-                initial={{ opacity: 0.7 }}
-                whileHover={{ opacity: 1 }}
-              >
-                <div className="flex items-center gap-3 flex-1">
-                  <motion.img
-                    src={item.creatorAvatar}
-                    alt={item.creator}
-                    className="w-10 h-10 rounded-full object-cover border border-white/20"
-                    whileHover={{ scale: 1.1 }}
-                  />
-                  <div>
-                    <p className="text-white font-semibold text-sm">{item.creator}</p>
+                {/* Info */}
+                <div className="p-5">
+                  <h3 className="text-white font-bold text-base mb-3 line-clamp-2">{item.title}</h3>
+                  <div className="flex items-center justify-between border-t pt-3" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
+                    <div className="flex items-center gap-2.5">
+                      <img src={item.creatorAvatar} alt={item.creator} className="w-8 h-8 rounded-full object-cover" style={{ border: '1px solid rgba(255,255,255,0.15)' }} draggable={false} />
+                      <span className="text-gray-400 text-xs font-medium">{item.creator}</span>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(168,85,247,0.15)', border: '1px solid rgba(168,85,247,0.3)', color: '#d8b4fe' }}>
+                      {item.label}
+                    </span>
                   </div>
                 </div>
-                <motion.span
-                  className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs font-bold rounded-full border border-purple-500/30 whitespace-nowrap ml-2"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  {item.label}
-                </motion.span>
               </motion.div>
-            </motion.button>
-          ))}
+            );
+          })}
         </motion.div>
 
-        {/* Accent Elements */}
+        {/* Accent glows */}
         <motion.div
-          className="absolute top-1/2 -right-40 w-80 h-80 bg-gradient-to-l from-cyan-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10"
-          animate={{ y: [0, 40, 0], opacity: [0.3, 0.6, 0.3] }}
+          className="absolute top-1/2 -right-40 w-80 h-80 rounded-full blur-3xl pointer-events-none -z-10"
+          style={{ background: 'radial-gradient(circle, rgba(168,85,247,0.1), transparent)' }}
+          animate={{ y: [0, 40, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute -bottom-20 -left-40 w-80 h-80 bg-gradient-to-r from-blue-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10"
-          animate={{ y: [0, -40, 0], opacity: [0.2, 0.5, 0.2] }}
+          className="absolute -bottom-20 -left-40 w-80 h-80 rounded-full blur-3xl pointer-events-none -z-10"
+          style={{ background: 'radial-gradient(circle, rgba(109,40,217,0.08), transparent)' }}
+          animate={{ y: [0, -40, 0] }}
           transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
         />
       </div>
-
-      {/* Video Modal */}
-      {selectedVideoId && (
-        <motion.div
-          className="fixed inset-0 bg-black/95 z-[9998] flex items-center justify-center p-4 overflow-auto backdrop-blur-sm"
-          initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-          animate={{ opacity: 1, backdropFilter: 'blur(8px)' }}
-          exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          onClick={() => setSelectedVideoId(null)}
-        >
-          <motion.div
-            className="relative w-full max-w-5xl my-auto"
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <motion.button
-              onClick={() => setSelectedVideoId(null)}
-              className="absolute -top-14 right-0 text-white z-[9999] transition-colors duration-300 hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-white/30 rounded p-2"
-              whileHover={{ scale: 1.15, rotate: 90 }}
-              whileTap={{ scale: 0.9 }}
-              aria-label="Close video"
-            >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </motion.button>
-
-            <motion.div
-              className="relative w-full bg-black rounded-2xl overflow-hidden border border-white/20 shadow-2xl shadow-black/50"
-              style={{ paddingBottom: '56.25%' }}
-              whileHover={{ borderColor: 'rgba(255,255,255,0.4)' }}
-            >
-              <iframe
-                className="absolute inset-0 w-full h-full"
-                src={`https://www.youtube.com/embed/${selectedVideoId}?autoplay=1&rel=0&modestbranding=1&controls=1&fs=1&iv_load_policy=3`}
-                title="YouTube video"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                style={{
-                  border: 'none',
-                }}
-              />
-            </motion.div>
-          </motion.div>
-        </motion.div>
-      )}
     </section>
   );
 }
