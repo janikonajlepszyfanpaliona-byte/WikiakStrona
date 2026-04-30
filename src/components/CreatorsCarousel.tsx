@@ -2,11 +2,12 @@
 
 import { motion } from 'framer-motion';
 import { useOnScreen } from './useOnScreen';
+import { useLanguage } from '@/context/LanguageContext';
 
 const creators = [
   { id: 1, name: 'kubir', avatar: 'https://yt3.googleusercontent.com/ytc/AIdro_mv6CpkNEQTdHHApBEnvWIRhpDED7eHLznLbq29y1m7uAw=s900-c-k-c0x00ffffff-no-rj', url: 'https://www.youtube.com/@Kubirek' },
   { id: 2, name: 'tobiasz', avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlsh4Aa3CTGDGhtOMVLgK4aHF4Glz82ArKOA&s', url: 'https://www.youtube.com/@TobiaszGaming' },
-  { id: 3, name: 'cpotworek', avatar: 'https://yt3.googleusercontent.com/QTcIJ56_CsX9lT46QoHyet2Of0q6ep96ai0XfIZEGc4FXpvoVT9LVZuvj225spS4TKVR6ageJ4I=s900-c-k-c0x00ffffff-no-rj', url: 'https://www.youtube.com/@cpotworek' },
+
   { id: 4, name: 'zenciak', avatar: 'https://yt3.googleusercontent.com/X1ofEazlVw-rkBo9oq6FcWCkWyNdNOxes1500cxtAO_s-eeRD-bRS3MWFY2Plll_9iTHCgw8=s900-c-k-c0x00ffffff-no-rj', url: 'https://www.youtube.com/@ZenciaK' },
   { id: 5, name: 'krzysimir', avatar: 'https://yt3.googleusercontent.com/ytc/AIdro_mSfUbXl3yYSnFhJxWvS7lim5dBilK8OrbEz4Qx5Kd4sSw=s900-c-k-c0x00ffffff-no-rj', url: 'https://www.youtube.com/@krzysimir92' },
   { id: 6, name: 'kabylekl', avatar: 'https://yt3.ggpht.com/4LLzkuHeDHEI3YEvZKNHQ-dQ1bOG-xz3qRhxY9ifpXqzFk3D74I2A3LHXqMgjJKyVaXP6_1YRpD6xx4=s168-c-fcrop64=1,09310000f6ceffff-nd-v1', url: 'https://www.youtube.com/@A5B1SS' },
@@ -36,8 +37,8 @@ function CreatorCard({ creator }: { creator: typeof creators[0] }) {
       }}
       onMouseEnter={e => {
         const el = e.currentTarget as HTMLElement;
-        el.style.background = 'rgba(168,85,247,0.12)';
-        el.style.borderColor = 'rgba(168,85,247,0.35)';
+        el.style.background = 'rgba(255,255,255,0.08)';
+        el.style.borderColor = 'rgba(255,255,255,0.15)';
       }}
       onMouseLeave={e => {
         const el = e.currentTarget as HTMLElement;
@@ -51,16 +52,16 @@ function CreatorCard({ creator }: { creator: typeof creators[0] }) {
           alt={creator.name}
           loading="lazy"
           draggable={false}
-          className="w-14 h-14 rounded-full object-cover border-2 group-hover:border-purple-500 transition-colors duration-300"
+          className="w-14 h-14 rounded-full object-cover border-2 group-hover:border-white transition-colors duration-300"
           style={{ borderColor: 'rgba(255,255,255,0.15)' }}
         />
         <span className="absolute -bottom-1 -right-1 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center shadow-md">
           <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
           </svg>
         </span>
       </div>
-      <span className="text-white text-sm font-semibold group-hover:text-purple-300 transition-colors duration-300 truncate max-w-[110px]">
+      <span className="text-white text-sm font-semibold group-hover:text-gray-300 transition-colors duration-300 truncate max-w-[110px]">
         {creator.name}
       </span>
     </a>
@@ -83,20 +84,17 @@ function MarqueeRow({ items, direction = 'left', duration = 40 }: { items: typeo
 }
 
 export default function CreatorsCarousel() {
+  const { t } = useLanguage();
   const [ref, isVisible] = useOnScreen(0.1);
 
   return (
     <section
       id="creators-carousel"
-      className="relative py-24 bg-black border-t overflow-hidden"
+      className="relative py-16 md:py-24 bg-black border-t overflow-hidden"
       style={{ borderColor: 'rgba(255,255,255,0.06)' }}
       ref={ref}
     >
-      {/* Background glows */}
-      <div className="absolute top-0 left-1/4 w-96 h-48 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(168,85,247,0.07) 0%, transparent 70%)' }} />
-      <div className="absolute bottom-0 right-1/4 w-96 h-48 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(109,40,217,0.05) 0%, transparent 70%)' }} />
+
 
       {/* Header */}
       <motion.div
@@ -107,14 +105,13 @@ export default function CreatorsCarousel() {
       >
         <span
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-4"
-          style={{ background: 'rgba(168,85,247,0.12)', border: '1px solid rgba(168,85,247,0.28)', color: '#c084fc' }}
+          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', color: '#ffffff' }}
         >
           Współprace
         </span>
-        <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-3">
-          Zaufane Współprace
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-3">
+          {t('carousel.title')}
         </h2>
-        <p className="text-gray-500 text-base">Partnerstwo z twórcami, których wspieramy</p>
       </motion.div>
 
       {/* Rows with edge fades */}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,9 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Wikak.Pl - Montaż Filmów i Edycja Wideo",
+  title: "Wikak.eu - Montaż Filmów i Edycja Wideo",
   description: "Profesjonalny montaż filmów, edycja wideo i produkcja treści dla YouTuberów",
 };
+
+import { LanguageProvider } from "@/context/LanguageContext";
 
 export default function RootLayout({
   children,
@@ -25,9 +28,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        {children}
+        <LanguageProvider>
+          <div className="flex-1">
+            {children}
+          </div>
+          <Footer />
+        </LanguageProvider>
         <script
           dangerouslySetInnerHTML={{
             __html: `

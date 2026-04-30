@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useOnScreen } from '@/components/useOnScreen';
+import { useLanguage } from '@/context/LanguageContext';
 
 const portfolioData = {
   videos: [
@@ -19,11 +20,11 @@ const portfolioData = {
   shorts: [
     { id: 101, title: 'Short #1', videoId: 'uXlVQnsOzz8', creator: 'Meksiak', creatorAvatar: 'https://yt3.googleusercontent.com/YsYhbpJ8j-NLcsl_siLCXHY4fTs86CgCwPF6DTj9RyuHxxMtAEArA_y_gJkc57ILrGhVvOLmGQ=s176-c-k-c0x00ffffff-no-rj-mo', label: 'Montaż Shorts' },
     { id: 102, title: 'Short #2', videoId: 'QVMBBrX5QeY', creator: 'Macmarr', creatorAvatar: 'https://minecraftfaces.com/wp-content/bigfaces/big-steve-face.png', label: 'Montaż Shorts' },
-    { id: 103, title: 'Short #3', videoId: 'KSFapL5U_o4', creator: 'Cpotworek', creatorAvatar: 'https://yt3.googleusercontent.com/QTcIJ56_CsX9lT46QoHyet2Of0q6ep96ai0XfIZEGc4FXpvoVT9LVZuvj225spS4TKVR6ageJ4I=s900-c-k-c0x00ffffff-no-rj', label: 'Montaż Shorts' },
+
     { id: 104, title: 'PONAD 10 000 SMOCZYCH ODŁMAKÓW DO ZGARNIĘCIA!', videoId: 'sXqn9AwW1-Y', creator: 'MineStar', creatorAvatar: 'https://minestar.pl/_next/image?url=%2Fimages%2Flogo_main.png&w=3840&q=100', label: 'Montaż Shorts' },
   ],
   animations: [
-    { id: 201, title: 'Animacja Prezentująca Stronę Wikak.PL', videoId: 'gaLwC2PzabU', creator: '???', creatorAvatar: 'https://minecraftfaces.com/wp-content/bigfaces/big-steve-face.png', label: '2D Motion' },
+    { id: 201, title: 'Animacja Prezentująca Stronę Wikak.eu', videoId: 'gaLwC2PzabU', creator: '???', creatorAvatar: 'https://minecraftfaces.com/wp-content/bigfaces/big-steve-face.png', label: '2D Motion' },
     { id: 202, title: 'Animacja #2', videoId: 'dibl6Gr1OVY', creator: '???', creatorAvatar: 'https://minecraftfaces.com/wp-content/bigfaces/big-steve-face.png', label: '2D Motion' },
     { id: 203, title: 'Animacja #3', videoId: '-UXcCAt9QHI', creator: '???', creatorAvatar: 'https://minecraftfaces.com/wp-content/bigfaces/big-steve-face.png', label: '2D Motion' },
   ],
@@ -41,6 +42,7 @@ const cardVariants = {
 };
 
 export default function PortfolioPage() {
+  const { t } = useLanguage();
   const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>('Videos');
   const [ref, isVisible] = useOnScreen(0.05);
@@ -53,41 +55,31 @@ export default function PortfolioPage() {
 
   return (
     <main className="min-h-screen bg-black pt-28 pb-20 relative overflow-hidden">
-      {/* Background glows */}
-      <div className="fixed top-0 right-0 w-[600px] h-[600px] pointer-events-none -z-10"
-        style={{ background: 'radial-gradient(circle at top right, rgba(168,85,247,0.07) 0%, transparent 60%)' }} />
-      <div className="fixed bottom-0 left-0 w-[500px] h-[500px] pointer-events-none -z-10"
-        style={{ background: 'radial-gradient(circle at bottom left, rgba(109,40,217,0.06) 0%, transparent 60%)' }} />
-
       <section className="max-w-7xl mx-auto px-4" ref={ref}>
         {/* Back Button */}
         <motion.div className="mb-14" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white transition-all duration-300"
-            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(168,85,247,0.4)'; (e.currentTarget as HTMLElement).style.color = '#d8b4fe'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.1)'; (e.currentTarget as HTMLElement).style.color = '#ffffff'; }}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold text-black bg-white transition-all duration-300"
+            style={{ boxShadow: '0 0 20px rgba(255,255,255,0.1)' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; }}
           >
-            ← Wróć do głównej
+            ← {t('footer.home')}
           </Link>
         </motion.div>
 
         {/* Header */}
         <motion.div className="mb-16 text-center" initial={{ opacity: 0, y: 30, filter: 'blur(12px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 0.8 }}>
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-6"
-            style={{ background: 'rgba(168,85,247,0.12)', border: '1px solid rgba(168,85,247,0.28)', color: '#c084fc' }}>
-            Moje Prace
+            style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}>
+            {t('portfolio.label')}
           </span>
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black mb-5 tracking-tight text-white leading-tight"
-            style={{ textShadow: '0 0 80px rgba(168,85,247,0.2)' }}>
-            Pełne{' '}
-            <span style={{ background: 'linear-gradient(135deg, #c084fc, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              Portfolio
-            </span>
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black mb-5 tracking-tight text-white leading-tight">
+            {t('portfolio.pageTitle')}
           </h1>
           <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-            Odkryj wszystkie moje projekty wideo, animacje i kreatywne rozwiązania dla twórców treści
+            {t('portfolio.subtitle')}
           </p>
         </motion.div>
 
@@ -102,10 +94,10 @@ export default function PortfolioPage() {
                 onClick={() => { setActiveCategory(cat); setSelectedVideoId(null); }}
                 className="px-7 py-2.5 rounded-full font-bold text-sm transition-all duration-300"
                 style={{
-                  background: active ? 'linear-gradient(135deg, #c084fc, #a855f7)' : 'rgba(255,255,255,0.05)',
-                  border: active ? '1px solid transparent' : '1px solid rgba(255,255,255,0.1)',
+                  background: active ? '#fff' : 'rgba(255,255,255,0.05)',
+                  border: active ? '1px solid #fff' : '1px solid rgba(255,255,255,0.1)',
                   color: active ? '#000' : 'rgba(255,255,255,0.6)',
-                  boxShadow: active ? '0 0 30px rgba(168,85,247,0.4)' : 'none',
+                  boxShadow: active ? '0 0 30px rgba(255,255,255,0.15)' : 'none',
                 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -131,17 +123,16 @@ export default function PortfolioPage() {
               return (
                 <motion.div
                   key={item.id}
-                  className="group relative overflow-hidden rounded-2xl"
+                  className="group relative overflow-hidden rounded-2xl bg-black"
                   style={{
-                    background: 'rgba(255,255,255,0.03)',
-                    border: isPlaying ? '1px solid rgba(168,85,247,0.5)' : '1px solid rgba(255,255,255,0.08)',
-                    boxShadow: isPlaying ? '0 20px 60px rgba(168,85,247,0.2)' : 'none',
+                    border: isPlaying ? '1px solid rgba(255,255,255,0.5)' : '1px solid rgba(255,255,255,0.08)',
+                    boxShadow: isPlaying ? '0 20px 60px rgba(255,255,255,0.1)' : 'none',
                   }}
                   variants={cardVariants}
                   initial="hidden"
                   animate={isVisible ? 'visible' : 'hidden'}
                   custom={index}
-                  whileHover={!isPlaying ? { y: -8, borderColor: 'rgba(168,85,247,0.35)', boxShadow: '0 20px 60px rgba(168,85,247,0.12)' } : {}}
+                  whileHover={!isPlaying ? { y: -8, borderColor: 'rgba(255,255,255,0.4)', boxShadow: '0 20px 60px rgba(255,255,255,0.1)' } : {}}
                 >
                   {/* Thumbnail / Inline Player */}
                   <div className="relative overflow-hidden" style={{ aspectRatio: '16/9' }}>
@@ -176,19 +167,19 @@ export default function PortfolioPage() {
                           loading="lazy"
                           draggable={false}
                         />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 transition-colors duration-300">
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/35 transition-colors duration-300">
                           <div
                             className="w-16 h-16 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            style={{ background: 'rgba(168,85,247,0.85)', boxShadow: '0 0 40px rgba(168,85,247,0.6)' }}
+                            style={{ background: 'rgba(255,255,255,0.9)', boxShadow: '0 0 40px rgba(255,255,255,0.3)' }}
                           >
-                            <svg className="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-7 h-7 text-black ml-1" fill="currentColor" viewBox="0 0 20 20">
                               <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                             </svg>
                           </div>
                         </div>
                         <div
                           className="absolute top-3 left-3 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          style={{ background: 'rgba(168,85,247,0.85)', color: '#fff' }}
+                          style={{ background: 'rgba(255,255,255,0.9)', color: '#000' }}
                         >
                           {activeCategory}
                         </div>
@@ -201,14 +192,14 @@ export default function PortfolioPage() {
                     <h3 className="text-white font-bold text-sm md:text-base mb-3 line-clamp-2 leading-snug">
                       {item.title}
                     </h3>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between border-t pt-3" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
                       <div className="flex items-center gap-2.5">
                         <img src={item.creatorAvatar} alt={item.creator} className="w-8 h-8 rounded-full object-cover"
                           style={{ border: '1px solid rgba(255,255,255,0.15)' }} draggable={false} />
                         <span className="text-gray-400 text-xs font-medium">{item.creator}</span>
                       </div>
                       <span className="px-2.5 py-1 rounded-full text-xs font-bold"
-                        style={{ background: 'rgba(168,85,247,0.15)', border: '1px solid rgba(168,85,247,0.3)', color: '#d8b4fe' }}>
+                        style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}>
                         {item.label}
                       </span>
                     </div>

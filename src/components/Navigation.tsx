@@ -2,48 +2,33 @@
 
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { motion } from 'framer-motion';
-
-const navItems = [
-  {
-    id: 'home',
-    label: 'Start',
-    icon: (
-      <svg fill="currentColor" viewBox="0 0 20 20" className="w-4 h-4 flex-shrink-0">
-        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-      </svg>
-    ),
-  },
-  {
-    id: 'portfolio',
-    label: 'Portfolio',
-    icon: (
-      <svg fill="currentColor" viewBox="0 0 20 20" className="w-4 h-4 flex-shrink-0">
-        <path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM4 9a1 1 0 100 2h8a1 1 0 100-2H4z" />
-      </svg>
-    ),
-  },
-  {
-    id: 'qa',
-    label: 'FAQ',
-    icon: (
-      <svg fill="currentColor" viewBox="0 0 20 20" className="w-4 h-4 flex-shrink-0">
-        <path fillRule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zm-7-4a1 1 0 11-2 0 1 1 0 012 0z" clipRule="evenodd" />
-      </svg>
-    ),
-  },
-  {
-    id: 'contact',
-    label: 'Kontakt',
-    icon: (
-      <svg fill="currentColor" viewBox="0 0 20 20" className="w-4 h-4 flex-shrink-0">
-        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-      </svg>
-    ),
-  },
-];
+import { useLanguage } from '@/context/LanguageContext';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Navigation() {
+  const { t } = useLanguage();
+
+  const navItems = [
+    {
+      id: 'home',
+      label: t('nav.start'),
+      icon: (
+        <svg fill="currentColor" viewBox="0 0 20 20" className="w-4 h-4 flex-shrink-0">
+          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+        </svg>
+      ),
+    },
+    {
+      id: 'portfolio',
+      label: t('nav.portfolio'),
+      icon: (
+        <svg fill="currentColor" viewBox="0 0 20 20" className="w-4 h-4 flex-shrink-0">
+          <path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM4 9a1 1 0 100 2h8a1 1 0 100-2H4z" />
+        </svg>
+      ),
+    },
+  ];
+
   const [bgOpacity, setBgOpacity] = useState(0);
   const [activeSection, setActiveSection] = useState('home');
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -96,8 +81,9 @@ export default function Navigation() {
     const element = document.getElementById(sectionId);
     if (!element) return;
     const start = window.scrollY;
-    const dist = element.offsetTop - start;
-    const dur = 1200;
+    const targetTop = element.getBoundingClientRect().top + window.scrollY;
+    const dist = targetTop - start;
+    const dur = 1000;
     let t: number | null = null;
     const step = (now: number) => {
       if (!t) t = now;
@@ -125,7 +111,7 @@ export default function Navigation() {
           className="text-white font-black text-xl tracking-tighter hover:opacity-70 transition-opacity duration-300"
           style={{ fontFamily: 'system-ui, -apple-system' }}
         >
-          WIKAK<span style={{ color: '#a855f7' }}>.</span>
+          WIKAK<span>.</span>
         </button>
 
         {/* Pill nav container */}
@@ -144,8 +130,8 @@ export default function Navigation() {
               animate={{ left: pillStyle.left, width: pillStyle.width }}
               transition={{ type: 'spring', stiffness: 500, damping: 40 }}
               style={{
-                background: hoveredId ? 'rgba(255,255,255,0.08)' : 'rgba(168,85,247,0.22)',
-                border: hoveredId ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(168,85,247,0.4)',
+                background: hoveredId ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.1)',
+                border: hoveredId ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(255,255,255,0.15)',
               }}
             />
           )}
@@ -162,7 +148,7 @@ export default function Navigation() {
                 onMouseLeave={() => setHoveredId(null)}
                 className="relative z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 select-none"
                 style={{
-                  color: isHovered ? '#ffffff' : isActive ? '#e9d5ff' : 'rgba(255,255,255,0.45)',
+                  color: isHovered ? '#ffffff' : isActive ? '#ffffff' : 'rgba(255,255,255,0.5)',
                 }}
               >
                 {item.icon}
@@ -173,13 +159,9 @@ export default function Navigation() {
         </div>
 
         {/* CTA */}
-        <button
-          onClick={() => scrollToSection('contact')}
-          className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold text-black transition-all duration-300 hover:opacity-90 hover:scale-105 active:scale-95"
-          style={{ background: 'linear-gradient(135deg, #c084fc, #a855f7)' }}
-        >
-          Zamów Montaż
-        </button>
+        <div className="flex items-center gap-4">
+          <LanguageSwitcher />
+        </div>
       </div>
     </nav>
   );
