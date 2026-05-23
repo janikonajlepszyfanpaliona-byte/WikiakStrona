@@ -6,7 +6,17 @@ import Link from 'next/link';
 import { useOnScreen } from '@/components/useOnScreen';
 import { useLanguage } from '@/context/LanguageContext';
 
-const portfolioData = {
+interface VideoItem {
+  id: number;
+  title: string;
+  videoId: string;
+  creator: string;
+  creatorAvatar: string;
+  label: string;
+  extraLabel?: string;
+}
+
+const portfolioData: { videos: VideoItem[]; shorts: VideoItem[]; animations: VideoItem[] } = {
   videos: [
     { id: 11, title: '100 WIDZÓW vs 3 PRO BUDOWNICZYCH - Kto Wybuduje Lepsze KRÓLESTWO?', videoId: '-0EwuWwuxK8', creator: 'Napierak', creatorAvatar: 'https://yt3.googleusercontent.com/ytc/AIdro_m6Azbdy1x7mjZsh5uQnrKHhF2fTabVe9GvKqIWkb47LNQ=s900-c-k-c0x00ffffff-no-rj', label: 'Montaż Filmu' },
     { id: 1, title: 'EarthSmp: Miecz Łowcy', videoId: 'ppezf46mLO0', creator: 'EkipaRapy', creatorAvatar: 'https://yt3.googleusercontent.com/Wt6C9J0YOaBHc4sp9WSyOo0PVPSM6d8QaiGXJsVIuzntg1dVxdi105lrRyrN7E8Z_KrRqfM7qg=s900-c-k-c0x00ffffff-no-rj', label: 'Montaż Filmu' },
@@ -203,10 +213,10 @@ export default function PortfolioPage() {
                           style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}>
                           {item.label}
                         </span>
-                        {'extraLabel' in item && item.extraLabel && (
+                        {item.extraLabel && (
                           <span className="px-2.5 py-1 rounded-full text-xs font-bold"
                             style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)' }}>
-                            {(item as any).extraLabel}
+                            {item.extraLabel}
                           </span>
                         )}
                       </div>
