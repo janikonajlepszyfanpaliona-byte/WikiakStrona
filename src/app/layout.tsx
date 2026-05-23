@@ -19,6 +19,8 @@ export const metadata: Metadata = {
 };
 
 import { LanguageProvider } from "@/context/LanguageContext";
+import { LoadingProvider } from "@/context/LoadingContext";
+import Loading from "@/components/Loading";
 
 export default function RootLayout({
   children,
@@ -30,12 +32,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <LanguageProvider>
-          <div className="flex-1">
-            {children}
-          </div>
-          <Footer />
-        </LanguageProvider>
+        <LoadingProvider>
+          <Loading />
+          <LanguageProvider>
+            <div className="flex-1">
+              {children}
+            </div>
+            <Footer />
+          </LanguageProvider>
+        </LoadingProvider>
         <script
           dangerouslySetInnerHTML={{
             __html: `

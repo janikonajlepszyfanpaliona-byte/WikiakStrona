@@ -20,8 +20,8 @@ const creators = [
   { id: 13, name: 'RapyGG', avatar: 'https://yt3.googleusercontent.com/Wt6C9J0YOaBHc4sp9WSyOo0PVPSM6d8QaiGXJsVIuzntg1dVxdi105lrRyrN7E8Z_KrRqfM7qg=s900-c-k-c0x00ffffff-no-rj', url: 'https://www.youtube.com/@RAPY_PL' },
 ];
 
-const row1 = [...creators.slice(0, 7), ...creators.slice(0, 7)];
-const row2 = [...creators.slice(6), ...creators.slice(6)];
+const row1 = [...creators.slice(0, 7), ...creators.slice(0, 7), ...creators.slice(0, 7)];
+const row2 = [...creators.slice(6), ...creators.slice(6), ...creators.slice(6)];
 
 function CreatorCard({ creator }: { creator: typeof creators[0] }) {
   return (
@@ -69,12 +69,13 @@ function CreatorCard({ creator }: { creator: typeof creators[0] }) {
 }
 
 function MarqueeRow({ items, direction = 'left', duration = 40 }: { items: typeof creators; direction?: 'left' | 'right'; duration?: number }) {
-  const totalWidth = items.length / 2 * 220;
+  const CARD_WIDTH = 220; // px per card including gap
+  const segmentWidth = (items.length / 3) * CARD_WIDTH; // width of one segment (1/3 of tripled array)
   return (
     <div className="overflow-hidden py-1.5">
       <motion.div
         className="flex gap-4 will-change-transform"
-        animate={{ x: direction === 'left' ? [-totalWidth, 0] : [0, -totalWidth] }}
+        animate={{ x: direction === 'left' ? [0, -segmentWidth] : [-segmentWidth, 0] }}
         transition={{ x: { duration, repeat: Infinity, ease: 'linear', repeatType: 'loop' } }}
       >
         {items.map((c, i) => <CreatorCard key={`${c.id}-${i}`} creator={c} />)}

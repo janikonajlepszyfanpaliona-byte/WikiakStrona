@@ -111,7 +111,7 @@ export default function Navigation() {
           className="text-white font-black text-xl tracking-tighter hover:opacity-70 transition-opacity duration-300"
           style={{ fontFamily: 'system-ui, -apple-system' }}
         >
-          WIKAK<span>.</span>
+          WIKAK
         </button>
 
         {/* Pill nav container */}

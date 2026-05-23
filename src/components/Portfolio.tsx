@@ -26,13 +26,13 @@ const portfolioItems = [
     label: 'Montaż Filmu',
   },
   {
-    id: 3,
-    title: 'Został UPOKORZONY na oczach całego ŚWIATA!',
-    category: 'Videos',
-    videoId: 'g45GnYcsSMk',
-    creator: 'Kubir',
-    creatorAvatar: 'https://yt3.googleusercontent.com/ytc/AIdro_mv6CpkNEQTdHHApBEnvWIRhpDED7eHLznLbq29y1m7uAw=s88-c-k-c0x00ffffff-no-rj',
-    label: 'Montaż Filmu',
+    id: 103,
+    title: 'MAM JUŻ TEGO DOŚĆ!',
+    category: 'Shorts',
+    videoId: 'NuuVx-oox-g',
+    creator: 'PykMc',
+    creatorAvatar: 'https://yt3.googleusercontent.com/r6puujOcQLh58EPyTGBpLfNTehj9InnM-Q8P-DFSsWGSt6j-lN2Bl6xSf6zfFMSQ_wqVOj05=s900-c-k-c0x00ffffff-no-rj',
+    label: 'Montaż Shorts',
   },
 ];
 
@@ -165,9 +165,16 @@ export default function Portfolio() {
                       <img src={item.creatorAvatar} alt={item.creator} className="w-8 h-8 rounded-full object-cover" style={{ border: '1px solid rgba(255,255,255,0.15)' }} draggable={false} />
                       <span className="text-gray-400 text-xs font-medium">{item.creator}</span>
                     </div>
-                    <span className="px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}>
-                      {item.label}
-                    </span>
+                    <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                      <span className="px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}>
+                        {item.label}
+                      </span>
+                      {'extraLabel' in item && (item as any).extraLabel && (
+                        <span className="px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)' }}>
+                          {(item as any).extraLabel}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </motion.div>

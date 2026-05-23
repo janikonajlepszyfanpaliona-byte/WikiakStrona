@@ -267,6 +267,12 @@ html {
   }
 }
 
+/* Ensure page is always visible after animation */
+.animate-fade-in-up,
+[class*="animate-"] {
+  backface-visibility: hidden;
+}
+
 @keyframes fadeInDown {
   from {
     opacity: 0;
@@ -423,7 +429,8 @@ html {
 /* ==================== ANIMATION CLASSES ==================== */
 
 .animate-fade-in-up {
-  animation: smoothFadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: smoothFadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+  opacity: 1;
 }
 
 .animate-fade-in-down {

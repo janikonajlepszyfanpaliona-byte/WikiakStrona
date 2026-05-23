@@ -11,7 +11,7 @@ const portfolioData = {
     { id: 11, title: '100 WIDZÓW vs 3 PRO BUDOWNICZYCH - Kto Wybuduje Lepsze KRÓLESTWO?', videoId: '-0EwuWwuxK8', creator: 'Napierak', creatorAvatar: 'https://yt3.googleusercontent.com/ytc/AIdro_m6Azbdy1x7mjZsh5uQnrKHhF2fTabVe9GvKqIWkb47LNQ=s900-c-k-c0x00ffffff-no-rj', label: 'Montaż Filmu' },
     { id: 1, title: 'EarthSmp: Miecz Łowcy', videoId: 'ppezf46mLO0', creator: 'EkipaRapy', creatorAvatar: 'https://yt3.googleusercontent.com/Wt6C9J0YOaBHc4sp9WSyOo0PVPSM6d8QaiGXJsVIuzntg1dVxdi105lrRyrN7E8Z_KrRqfM7qg=s900-c-k-c0x00ffffff-no-rj', label: 'Montaż Filmu' },
     { id: 2, title: 'EarthSmp: PentaKill', videoId: 'undo7xjhy0g', creator: 'EkipaRapy', creatorAvatar: 'https://yt3.googleusercontent.com/Wt6C9J0YOaBHc4sp9WSyOo0PVPSM6d8QaiGXJsVIuzntg1dVxdi105lrRyrN7E8Z_KrRqfM7qg=s900-c-k-c0x00ffffff-no-rj', label: 'Montaż Filmu' },
-    { id: 3, title: 'To są NAJLEPSZE Texture Packi na Lifesteal', videoId: '6jrj1nPN3cU', creator: 'Kabylek', creatorAvatar: 'https://yt3.ggpht.com/4LLzkuHeDHEI3YEvZKNHQ-dQ1bOG-xz3qRhxY9ifpXqzFk3D74I2A3LHXqMgjJKyVaXP6_1YRpD6xx4=s168-c-fcrop64=1,09310000f6ceffff-nd-v1', label: 'Montaż Filmu' },
+    { id: 3, title: 'To są NAJLEPSZE Texture Packi na Lifesteal', videoId: '6jrj1nPN3cU', creator: 'Kabylek', creatorAvatar: 'https://yt3.ggpht.com/4LLzkuHeDHEI3YEvZKNHQ-dQ1bOG-xz3qRhxY9ifpXqzFk3D74I2A3LHXqMgjJKyVaXP6_1YRpD6xx4=s168-c-fcrop64=1,09310000f6ceffff-nd-v1', label: 'Montaż Filmu', extraLabel: 'Montaż Intro' },
     { id: 4, title: 'Minecraft, ale musisz zebrać 1.000.000 BLOKÓW...', videoId: 'g45GnYcsSMk', creator: 'Kubir', creatorAvatar: 'https://yt3.googleusercontent.com/ytc/AIdro_mv6CpkNEQTdHHApBEnvWIRhpDED7eHLznLbq29y1m7uAw=s88-c-k-c0x00ffffff-no-rj', label: 'Montaż Filmu' },
     { id: 5, title: 'UKRADŁEM Najlepszego Brainrota w STEAL A BRAINROT ROBLOX w Minecraft...', videoId: 'VI70ICxQBSw', creator: 'Kubir', creatorAvatar: 'https://yt3.googleusercontent.com/ytc/AIdro_mv6CpkNEQTdHHApBEnvWIRhpDED7eHLznLbq29y1m7uAw=s88-c-k-c0x00ffffff-no-rj', label: 'Montaż Filmu' },
     { id: 6, title: 'Co Się Nie Zgadza w Tej STRUKTURZE? - REWANŻ', videoId: '5TQ0K1jZPa4', creator: 'Napierak', creatorAvatar: 'https://yt3.googleusercontent.com/ytc/AIdro_m6Azbdy1x7mjZsh5uQnrKHhF2fTabVe9GvKqIWkb47LNQ=s900-c-k-c0x00ffffff-no-rj', label: 'Montaż Filmu' },
@@ -20,7 +20,7 @@ const portfolioData = {
   shorts: [
     { id: 101, title: 'Short #1', videoId: 'uXlVQnsOzz8', creator: 'Meksiak', creatorAvatar: 'https://yt3.googleusercontent.com/YsYhbpJ8j-NLcsl_siLCXHY4fTs86CgCwPF6DTj9RyuHxxMtAEArA_y_gJkc57ILrGhVvOLmGQ=s176-c-k-c0x00ffffff-no-rj-mo', label: 'Montaż Shorts' },
     { id: 102, title: 'Short #2', videoId: 'QVMBBrX5QeY', creator: 'Macmarr', creatorAvatar: 'https://minecraftfaces.com/wp-content/bigfaces/big-steve-face.png', label: 'Montaż Shorts' },
-
+    { id: 103, title: 'MAM JUŻ TEGO DOŚĆ!', videoId: 'NuuVx-oox-g', creator: 'PykMc', creatorAvatar: 'https://yt3.googleusercontent.com/r6puujOcQLh58EPyTGBpLfNTehj9InnM-Q8P-DFSsWGSt6j-lN2Bl6xSf6zfFMSQ_wqVOj05=s900-c-k-c0x00ffffff-no-rj', label: 'Montaż Shorts' },
     { id: 104, title: 'PONAD 10 000 SMOCZYCH ODŁMAKÓW DO ZGARNIĘCIA!', videoId: 'sXqn9AwW1-Y', creator: 'MineStar', creatorAvatar: 'https://minestar.pl/_next/image?url=%2Fimages%2Flogo_main.png&w=3840&q=100', label: 'Montaż Shorts' },
   ],
   animations: [
@@ -198,10 +198,18 @@ export default function PortfolioPage() {
                           style={{ border: '1px solid rgba(255,255,255,0.15)' }} draggable={false} />
                         <span className="text-gray-400 text-xs font-medium">{item.creator}</span>
                       </div>
-                      <span className="px-2.5 py-1 rounded-full text-xs font-bold"
-                        style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}>
-                        {item.label}
-                      </span>
+                      <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                        <span className="px-2.5 py-1 rounded-full text-xs font-bold"
+                          style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}>
+                          {item.label}
+                        </span>
+                        {'extraLabel' in item && item.extraLabel && (
+                          <span className="px-2.5 py-1 rounded-full text-xs font-bold"
+                            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)' }}>
+                            {(item as any).extraLabel}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </motion.div>

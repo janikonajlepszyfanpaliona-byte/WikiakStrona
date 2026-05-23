@@ -22,7 +22,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-black text-white animate-fade-in-up">
+    <div className="bg-black text-white">
       <Navigation />
       <Hero />
       <CreatorsCarousel />

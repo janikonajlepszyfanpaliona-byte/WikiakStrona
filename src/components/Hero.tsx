@@ -41,10 +41,42 @@ export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const stats = [
-    { value: '49+', label: t('hero.stat1') },
-    { value: '67+', label: t('hero.stat2') },
-    { value: '218+', label: t('hero.stat3') },
+    { value: '99+', label: t('hero.stat1') },
+    { value: '299+', label: t('hero.stat2') },
+    { value: '499+', label: t('hero.stat3') },
   ];
+
+  const scrollToAboutCentered = () => {
+    const element = document.getElementById('o-mnie');
+    if (!element) return;
+
+    const start = window.scrollY;
+    const rect = element.getBoundingClientRect();
+    // Calculate target scroll position to center the section vertically
+    const targetTop = rect.top + window.scrollY - (window.innerHeight - rect.height) / 2;
+    const dist = targetTop - start;
+    const duration = 1200; // Premium, slow and smooth scroll (1.2s)
+    let startTime: number | null = null;
+
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // easeInOutCubic for beautiful acceleration and deceleration
+      const ease = progress < 0.5 
+        ? 4 * progress * progress * progress 
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+      window.scrollTo(0, start + dist * ease);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    requestAnimationFrame(step);
+  };
 
   return (
     <motion.section
@@ -117,10 +149,8 @@ export default function Hero() {
 
         {/* CTA Buttons */}
         <motion.div className="flex flex-col sm:flex-row items-center gap-4 w-full px-4 sm:px-0 sm:w-auto" variants={itemVariants}>
-          <motion.a
-            href="https://discord.gg/VJ3362f5"
-            target="_blank"
-            rel="noopener noreferrer"
+          <motion.button
+            onClick={scrollToAboutCentered}
             className="w-full sm:w-auto justify-center px-8 py-3.5 font-bold text-base text-black bg-white rounded-full inline-flex items-center gap-2 shadow-xl"
             style={{
               boxShadow: '0 0 30px rgba(255, 255, 255, 0.2)',
@@ -129,14 +159,12 @@ export default function Hero() {
             whileTap={{ scale: 0.97 }}
           >
             {t('hero.btnStart')}
-          </motion.a>
+          </motion.button>
 
           <motion.a
-            href="#portfolio"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
-            }}
+            href="https://discord.gg/6rpWQKh9y"
+            target="_blank"
+            rel="noopener noreferrer"
             className="w-full sm:w-auto text-center px-8 py-3.5 border border-white/20 text-white font-bold text-base rounded-full hover:border-white/40 hover:bg-white/5 transition-all duration-300"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
@@ -166,24 +194,7 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Scroll cue */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 1.6, repeat: Infinity }}
-      >
-        <span className="text-gray-600 text-[10px] tracking-widest uppercase">{t('hero.scroll')}</span>
-        <motion.svg
-          className="w-5 h-5 text-gray-500"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          animate={{ opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </motion.svg>
-      </motion.div>
+
 
     </motion.section>
   );

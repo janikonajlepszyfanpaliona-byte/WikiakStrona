@@ -13,10 +13,8 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = useState<Language>('pl');
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
     const savedLang = localStorage.getItem('language') as Language;
     if (savedLang && Object.keys(translations).includes(savedLang)) {
       setLanguageState(savedLang);
@@ -29,14 +27,13 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   };
 
   const t = (path: string): string => {
-    if (!isClient) return ''; // Prevent hydration mismatch
     const keys = path.split('.');
     let result: any = translations[language];
     for (const key of keys) {
       if (result && result[key] !== undefined) {
         result = result[key];
       } else {
-        return path; // Fallback to path if not found
+        return path;
       }
     }
     return result as string;
